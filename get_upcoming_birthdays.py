@@ -20,7 +20,7 @@ def get_upcoming_birthdays(users):
             continue
 
         try:
-            birthday_this_year_date = datetime(
+            birthday_date = datetime(
                 year=today_date.year,
                 month=birthday_datetime.month,
                 day=birthday_datetime.day
@@ -29,15 +29,18 @@ def get_upcoming_birthdays(users):
             print(f"⚠️ Cannot find birthday this year for {name}: {birthday}")
             continue
 
-        if today_date < birthday_this_year_date.date() < in_seven_days_date:
-            birthday_weekday = birthday_this_year_date.weekday()
+        if birthday_date.date() < today_date:
+            birthday_date = birthday_date.replace(year=today_date.year + 1)
 
-            if birthday_weekday >= SATURDAY_WEEKDAY:
-                birthday_this_year_date += timedelta(days=WEEK_DAYS - birthday_weekday)
+        if today_date <= birthday_date.date() < in_seven_days_date:
+            weekday = birthday_date.weekday()
+
+            if weekday >= SATURDAY_WEEKDAY:
+                birthday_date += timedelta(days=WEEK_DAYS - weekday)
 
             upcoming_birthdays.append({
                 "name": name,
-                "congratulation_date": birthday_this_year_date.strftime("%Y.%m.%d")
+                "congratulation_date": birthday_date.strftime("%Y.%m.%d")
             })
 
     return upcoming_birthdays
