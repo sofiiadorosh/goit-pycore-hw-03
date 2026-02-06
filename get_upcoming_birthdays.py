@@ -26,11 +26,8 @@ def get_upcoming_birthdays(users):
                 day=birthday_datetime.day
             )
         except ValueError:
-            birthday_this_year_date = datetime(
-                year=today_date.year,
-                month=3,
-                day=1
-            )
+            print(f"⚠️ Cannot find birthday this year for {name}: {birthday}")
+            continue
 
         if today_date < birthday_this_year_date.date() < in_seven_days_date:
             birthday_weekday = birthday_this_year_date.weekday()
